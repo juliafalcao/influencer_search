@@ -1,4 +1,7 @@
 .DS_Store
 .vscode/
 .python-version
-graph.pyc
+
+draft.py
+nul
+output.txt
