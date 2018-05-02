@@ -1,5 +1,6 @@
 """
 Simple graph structure (undirected, not weighted).
+Stores information about each user's friends and the friend groups they're a part of.
 """
 
 import sys
@@ -19,30 +20,24 @@ class Graph:
 
 	groups = {}
 	"""
-	Dict where a key is a circle ID and its value is a set of nodes in the circle.
-	e.g. 
+	Dict where a key is a node and its value is a set of groups it's in. Group information
+	comes from separate ego networks and different groups can have the same group ID in
+	different ego networks, therefore, a group is represented by a tuple (e, g) where e is
+	the ego network and g is the group ID. So (107, 10) is group number 10 in node 107's
+	ego network.
 	"""
 
 	# class constructor
 	def __init__(self, graph_id = -1, edges = []):
-		# input: a list of tuples (x,y) that represent an undirected edge between x and y
-		
-		if graph_id <= -1:
-			print("Graph ID (ego ID) has to be greater than or equal to zero.")
-			return
-		
 		self.graph_id = graph_id
 
 		for edge in edges:
-			x = edge[0]
-			y = edge[1]
-
-			self.add_edge(x,y)
+			self.add_edge(edge[0], edge[1])
 
 	# representation (in ego-facebook dataset context)
 	# for clearer visualization and debugging
 	def __repr__(self):
-		output = "<EGO: " + str(self.graph_id) + "\n\nCONNECTIONS:\n";
+		output = "CONNECTIONS:\n";
 
 		for n in self.neighbors:
 			output += " " +  str(n) + ": " + str(self.neighbors[n]) + "\n"
@@ -74,6 +69,16 @@ class Graph:
 		if y not in self.neighbors[x]:
 			self.neighbors[x].add(y)
 
+
+	# add a friend circle from an ego network
+	def add_group(self, ego_id, group_id, members = []):
+		for node in members:
+			if node not in self.groups:
+				self.groups[node] = set()
+			
+			self.groups[node].add((ego_id, group_id))
+
+
 	# returns the amount of neighbors a node has
 	def neighbor_count(self, node):
 		if node in self.neighbors:
@@ -81,10 +86,16 @@ class Graph:
 
 	# returns the amount of groups a node is a part of
 	def group_count(self, node):
-		count = 0
+		if node in self.groups:
+			return len(self.groups[node])
 
-		for g in self.groups:
-			if node in self.groups[g]:
-				count += 1
 
-		return count
+	def nodes_not_in_groups(self):
+		nodes = []
+
+		for node in self.neighbors.keys():
+			if node not in self.groups or len(self.groups[node]) == 0:
+				nodes.append(node)
+
+		nodes.sort()
+		return nodes
