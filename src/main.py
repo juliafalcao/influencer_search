@@ -1,5 +1,5 @@
 from graph import *
-import fb_init
+# import fb_init
 import yt_init
 
 import random
@@ -14,17 +14,16 @@ GROUPS = 2
 
 def main():
     graph = yt_init.build_graph()
-
-    """
+    
     print("RANDOM RESTART HILL CLIMBING:")
-    solution = search(graph, FRIENDS, k = 3)
+    solution = search(graph, FRIENDS, k = 1)
     print("solution: " + str(solution))
-    """
       
+    """
     print("EXACT DFS:")
     print("global max: " + str(dfs(graph, FRIENDS)))
     # global max: 1072
-
+    """
     
 
 def heuristic_function(heuristic_id, graph, node):
@@ -66,43 +65,8 @@ def search(graph, heuristic_id, k = 1):
     
     return set(influencers)
 
-"""
-# circle count
-def next_node_2(graph, current_node):
-    neighbors = graph.neighbors[current_node]
-
-    max_circle_count = 0
-    max_neighbor = None
-
-    for n in neighbors:
-        circle_count = graph.group_count(n)
-
-        if circle_count is None:
-            circle_count = 0
-
-        if circle_count > max_circle_count:
-            max_circle_count = circle_count
-            max_neighbor = n
-    
-    return max_neighbor
-
-# friend count
-def next_node_1(graph, current_node):
-    neighbors = graph.neighbors[current_node]
-    
-    max_friend_count = 0
-    max_neighbor = None
-    
-    for n in neighbors:
-        friend_count = graph.neighbor_count(n)
-
-        if friend_count > max_friend_count:
-            max_friend_count = friend_count
-            max_neighbor = n
-
-    return max_neighbor
-"""
-
+# receives a graph and the current node and based on the neighbor's values
+# returns which is the best one
 def next_node(graph, current_node, heuristic_id):
     neighbors = graph.neighbors[current_node]
 
@@ -118,7 +82,6 @@ def next_node(graph, current_node, heuristic_id):
     return max_neighbor
 
 # hill climbing search
-# next is the function that returns the next node to visit (the one with the highest heuristic value)
 def hill_climbing(graph, initial_node, heuristic_id):
     if initial_node not in graph.neighbors:
         print("ERROR: Initial node given is not in graph.")
@@ -127,7 +90,6 @@ def hill_climbing(graph, initial_node, heuristic_id):
     current = initial_node
     
     while True:
-        # !!
         next = next_node(graph, current, heuristic_id)
 
         if heuristic_function(heuristic_id, graph, next) < heuristic_function(heuristic_id, graph, current):
@@ -135,10 +97,30 @@ def hill_climbing(graph, initial_node, heuristic_id):
 
         current = next
 
+
 # choose a random node from the graph
 def random_node(graph):
     nodes = list(graph.neighbors.keys())
     return random.choice(nodes)
+
+
+# reachable nodes
+def reachable(graph, solution):
+    reachable = set()
+    stack = []
+    
+    for influencer in solution:
+        stack.append(influencer)
+
+        while stack:
+            current = stack.pop()
+
+            if current not in reachable:
+                reachable.add(current)
+                stack.extend(graph.neighbors[current] - reachable)
+    
+    return len(reachable)
+
 
 
 # exact depth-first search
@@ -165,8 +147,6 @@ def dfs(graph, heuristic_id):
                 stack.extend(graph.neighbors[current] - visited)
     
     return global_max
-
-
 
 
 main()
