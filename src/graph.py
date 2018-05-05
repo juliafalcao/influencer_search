@@ -45,7 +45,7 @@ class Graph:
 		output += "\nCIRCLES:\n";
 
 		for n in self.groups:
-			output += str(n) + ": " + str(self.groups[n]) + "\n"
+			output += " " + str(n) + ": " + str(self.groups[n]) + "\n"
 		
 		output += ">\n"
 
@@ -70,13 +70,23 @@ class Graph:
 			self.neighbors[x].add(y)
 
 
-	# add a friend circle from an ego network
-	def add_group(self, ego_id, group_id, members = []):
+	# add a friend group
+
+	# facebook dataset: based on ego networks
+	def add_fb_group(self, ego_id, group_id, members = []):
 		for node in members:
 			if node not in self.groups:
 				self.groups[node] = set()
 			
 			self.groups[node].add((ego_id, group_id))
+
+	# youtube dataset
+	def add_yt_group(self, group_id, members = []):
+		for node in members:
+			if node not in self.groups:
+				self.groups[node] = set()
+			
+			self.groups[node].add(group_id)
 
 
 	# returns the amount of neighbors a node has
@@ -89,7 +99,7 @@ class Graph:
 		if node in self.groups:
 			return len(self.groups[node])
 
-
+	"""
 	def nodes_not_in_groups(self):
 		nodes = []
 
@@ -99,3 +109,4 @@ class Graph:
 
 		nodes.sort()
 		return nodes
+	"""
