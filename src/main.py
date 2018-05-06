@@ -9,20 +9,17 @@ import time
 FRIENDS = 1
 GROUPS = 2
 
+
 def main():
     graph = yt_init.build_graph()
-    
-    
+
     print("RANDOM RESTART HILL CLIMBING:")
-    solution = search(graph, FRIENDS, k = 3)
+    solution = search(graph, FRIENDS, k=3)
     print("solution: " + str(solution))
-    
-      
-    """
+
     print("EXACT DFS:")
-    print("global max: " + str(dfs(graph, FRIENDS)))
+    print("global maxes: " + str(dfs(graph, FRIENDS, 5)))
     # global max: 1072
-    """
     
 
 def heuristic_function(heuristic_id, graph, node):
@@ -40,7 +37,7 @@ def heuristic_function(heuristic_id, graph, node):
 # main random-restart hill climbing search function
 # decides initial node, runs hill climbing search iteratively,
 # checks when to stop iterations
-def search(graph, heuristic_id, k = 1):
+def search(graph, heuristic_id, k=1):
     influencers = []
 
     while len(set(influencers)) < k:  # para encontrar k soluções diferentes
@@ -55,7 +52,6 @@ def search(graph, heuristic_id, k = 1):
                 initial_node = random_node(graph)
                 print(initial_node)
         """
-        
 
         print("k = " + str(k))
         print("initial node: " + str(initial_node))
@@ -96,7 +92,7 @@ def hill_climbing(graph, initial_node, heuristic_id):
         next = next_node(graph, current, heuristic_id)
 
         if heuristic_function(heuristic_id, graph, next) < heuristic_function(heuristic_id, graph, current):
-            return current # fim da busca
+            return current  # fim da busca
 
         current = next
 
@@ -126,12 +122,12 @@ def reachable(graph, solution):
 
 
 # exact depth-first search
-def dfs(graph, heuristic_id):
+def dfs(graph, heuristic_id, k=1):
     initial_node = random_node(graph)
     visited = set()
     stack = []
-    max_value = 0
-    global_max = None
+    maxes = []
+    values = []
 
     stack.append(initial_node)
 
@@ -140,15 +136,21 @@ def dfs(graph, heuristic_id):
 
         if current not in visited:
             value = heuristic_function(heuristic_id, graph, current)
+            values.append([current, value])
 
-            if value > max_value:
-                max_value = value
-                global_max = current
+            visited.add(current)
+            stack.extend(graph.neighbors[current] - visited)
 
-                visited.add(current)
-                stack.extend(graph.neighbors[current] - visited)
-    
-    return global_max
+    values.sort(key=get_value, reverse=True)
+
+    for i in range(k):
+        maxes.append(values[i][0])
+
+    return maxes
+
+
+def get_value(item):
+    return item[1]
 
 
 start_time = time.time()
