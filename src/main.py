@@ -1,8 +1,9 @@
-
 # -*- coding: utf-8 -*-
+
 from graph import *
 import yt_init
 import random
+import time
 
 # heuristic IDs
 FRIENDS = 1
@@ -11,11 +12,11 @@ GROUPS = 2
 def main():
     graph = yt_init.build_graph()
     
-    """
+    
     print("RANDOM RESTART HILL CLIMBING:")
     solution = search(graph, FRIENDS, k = 3)
     print("solution: " + str(solution))
-    """
+    
       
     """
     print("EXACT DFS:")
@@ -45,6 +46,7 @@ def search(graph, heuristic_id, k = 1):
     while len(set(influencers)) < k:  # para encontrar k soluções diferentes
         initial_node = random_node(graph)
 
+        """
         for local_max in set(influencers):
             while initial_node in graph.neighbors[local_max]:
                 print("guided restart")
@@ -52,6 +54,8 @@ def search(graph, heuristic_id, k = 1):
                 print("change initial node to: ")
                 initial_node = random_node(graph)
                 print(initial_node)
+        """
+        
 
         print("k = " + str(k))
         print("initial node: " + str(initial_node))
