@@ -42,10 +42,10 @@ def heuristic_function(heuristic_id, graph, node):
 # main random-restart hill climbing search function
 # decides initial node, runs hill climbing search iteratively,
 # checks when to stop iterations
-def search(graph, heuristic_id, k = 1):
+def search(graph, heuristic_id, k=1):
     influencers = []
 
-    while len(set(influencers)) < k: # para encontrar k soluções diferentes
+    while len(set(influencers)) < k:  # para encontrar k soluções diferentes
         initial_node = random_node(graph)
 
         for local_max in set(influencers):
@@ -108,7 +108,7 @@ def random_node(graph):
 
 # reachable nodes
 def reachable(graph, solution):
-    reachable = set()
+    vreachable = set()
     stack = []
     
     for influencer in solution:
@@ -117,11 +117,11 @@ def reachable(graph, solution):
         while stack:
             current = stack.pop()
 
-            if current not in reachable:
-                reachable.add(current)
-                stack.extend(graph.neighbors[current] - reachable)
+            if current not in vreachable:
+                vreachable.add(current)
+                stack.extend(graph.neighbors[current] - vreachable)
     
-    return len(reachable)
+    return len(vreachable)
 
 
 # exact depth-first search
