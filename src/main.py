@@ -1,9 +1,10 @@
-from graph import *
 # import fb_init
+from graph import *
 import yt_init
 
 import random
 import sys
+import time
 
 TOTAL_NODES = 1134890
 
@@ -16,7 +17,7 @@ def main():
     graph = yt_init.build_graph()
     
     print("RANDOM RESTART HILL CLIMBING:")
-    solution = search(graph, FRIENDS, k = 1)
+    solution = search(graph, FRIENDS, k=1)
     print("solution: " + str(solution))
       
     """
@@ -44,7 +45,7 @@ def heuristic_function(heuristic_id, graph, node):
 def search(graph, heuristic_id, k = 1):
     influencers = []
 
-    while (len(set(influencers)) < k): # para encontrar k soluções diferentes
+    while len(set(influencers)) < k: # para encontrar k soluções diferentes
         initial_node = random_node(graph)
 
         for local_max in set(influencers):
@@ -55,7 +56,6 @@ def search(graph, heuristic_id, k = 1):
                 initial_node = random_node(graph)
                 print(initial_node)
 
-
         print("k = " + str(k))
         print("initial node: " + str(initial_node))
         local_max = hill_climbing(graph, initial_node, heuristic_id)
@@ -64,6 +64,7 @@ def search(graph, heuristic_id, k = 1):
         influencers.append(local_max)
     
     return set(influencers)
+
 
 # receives a graph and the current node and based on the neighbor's values
 # returns which is the best one
@@ -80,6 +81,7 @@ def next_node(graph, current_node, heuristic_id):
             max_neighbor = n
     
     return max_neighbor
+
 
 # hill climbing search
 def hill_climbing(graph, initial_node, heuristic_id):
@@ -122,7 +124,6 @@ def reachable(graph, solution):
     return len(reachable)
 
 
-
 # exact depth-first search
 def dfs(graph, heuristic_id):
     initial_node = random_node(graph)
@@ -149,4 +150,7 @@ def dfs(graph, heuristic_id):
     return global_max
 
 
+start_time = time.time()
 main()
+elapsed_time = time.time() - start_time
+print("Runtime: %0.3f seconds" % float(time.time() - start_time))
