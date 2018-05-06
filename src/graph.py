@@ -10,6 +10,7 @@ class Graph:
     graph_id = None  # ID number
 
     neighbors = {}
+
     """
     Dict where a key is a node and its value is a set of its neighbors, or nodes it's
     connected to by an edge.
@@ -29,15 +30,17 @@ class Graph:
     """
 
     # class constructor
-    def __init__(self, graph_id=-1, edges=None):
+    def __init__(self, graph_id = -1, edges = None):
         if edges is None:
             edges = []
+
         self.graph_id = graph_id
 
         for edge in edges:
             self.add_edge(edge[0], edge[1])
 
-    # representation (in ego-facebook dataset context)
+
+    # representation
     # for clearer visualization and debugging
     def __repr__(self):
         output = "CONNECTIONS:\n"
@@ -45,16 +48,16 @@ class Graph:
         for n in self.neighbors:
             output += " " + str(n) + ": " + str(self.neighbors[n]) + "\n"
 
-        output += "\nCIRCLES:\n"
+        output += "\GROUPS:\n"
 
         for n in self.groups:
             output += " " + str(n) + ": " + str(self.groups[n]) + "\n"
 
-        output += ">\n"
+        output += "\n"
 
         return output
 
-    # add an undirected edge from x to y if it doesn't already exist and x != y
+    # add an undirected edge from x to y if it doesn't already exist and if x != y
     def add_edge(self, x, y):
         if x == y:
             print("ERROR: You can't add a loop (edge from a node to itself).")
@@ -75,9 +78,10 @@ class Graph:
     # add a friend group
 
     # facebook dataset: based on ego networks
-    def add_fb_group(self, ego_id, group_id, members=None):
+    def add_fb_group(self, ego_id, group_id, members = None):
         if members is None:
             members = []
+        
         for node in members:
             if node not in self.groups:
                 self.groups[node] = set()
@@ -85,9 +89,10 @@ class Graph:
             self.groups[node].add((ego_id, group_id))
 
     # youtube dataset
-    def add_yt_group(self, group_id, members=None):
+    def add_yt_group(self, group_id, members = None):
         if members is None:
             members = []
+
         for node in members:
             if node not in self.groups:
                 self.groups[node] = set()
@@ -103,6 +108,9 @@ class Graph:
     def group_count(self, node):
         if node in self.groups:
             return len(self.groups[node])
+        
+        else:
+            return 0
 
     """
     def nodes_not_in_groups(self):
