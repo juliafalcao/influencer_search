@@ -1,23 +1,22 @@
+# -*- coding: utf-8 -*-
+
 from graph import *
 # import fb_init
 import yt_init
-
 import random
-import sys
-
-TOTAL_NODES = 1134890
 
 # heuristic IDs
 FRIENDS = 1
 GROUPS = 2
 
-
 def main():
     graph = yt_init.build_graph()
     
+    """
     print("RANDOM RESTART HILL CLIMBING:")
-    solution = search(graph, FRIENDS, k = 1)
+    solution = search(graph, FRIENDS, k = 3)
     print("solution: " + str(solution))
+    """
       
     """
     print("EXACT DFS:")
@@ -44,7 +43,7 @@ def heuristic_function(heuristic_id, graph, node):
 def search(graph, heuristic_id, k = 1):
     influencers = []
 
-    while (len(set(influencers)) < k): # para encontrar k soluções diferentes
+    while (len(set(influencers)) < k): # to find k different solutions
         initial_node = random_node(graph)
 
         for local_max in set(influencers):
