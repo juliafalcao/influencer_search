@@ -62,18 +62,20 @@ class Graph:
         if x == y:
             print("ERROR: You can't add a loop (edge from a node to itself).")
             return
-
+      
+      
         if x not in self.neighbors:
             self.neighbors[x] = set()
-
+            #put x in neighbors dict
         if y not in self.neighbors:
             self.neighbors[y] = set()
-
+            #put y in neighbors dict
         if x not in self.neighbors[y]:
             self.neighbors[y].add(x)
-
+            #put x as neighbor of y in neighbors dict
         if y not in self.neighbors[x]:
             self.neighbors[x].add(y)
+            #put y as neighbor of x in neighbors dict
 
     # add a friend group
 
