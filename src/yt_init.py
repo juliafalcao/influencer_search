@@ -1,5 +1,5 @@
 """
-Initializes the full graph for the com-Orkut dataset with all the users (nodes)
+Initializes the full graph for the com-Youtube dataset with all the users (nodes)
 and connections (edges) between them and the groups each one is a part of.
 """
 

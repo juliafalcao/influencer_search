@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from graph import *
-import yt_init
+import yt_init, amz_init
 import random
 import time
 import sys, os
@@ -16,33 +16,36 @@ if "src" in os.getcwd():
 
 
 def main():
-    # for testing
-    h_id = FRIENDS
-    k = 3
-
+    # for testing    
+    h_id = GROUPS
+    k = 10
+    
     start_time = time.time()
     graph = yt_init.build_graph()
     elapsed_time = time.time() - start_time
-    print("-> runtime (graph construction): %0.3fs" % float(elapsed_time))
+    print("=> runtime (graph construction): %0.3fs" % float(elapsed_time))
 
-
+    
     print("\nRANDOM-RESTART HILL CLIMBING:")
     start_time = time.time()
     solution = search(graph, h_id, k)
     elapsed_time = time.time() - start_time
     print("\nsolution: " + str(solution))
-    print("-> runtime (heuristic search): %0.3fs" % float(elapsed_time))
+    print("=> runtime (heuristic search): %0.3fs" % float(elapsed_time))
     
     
     print("\nEXACT DEPTH-FIRST SEARCH:")
     start_time = time.time()
-    exact_solution = dfs(graph, h_id, k)
+    exact_solution = []
+    for i in range(k):
+        exact_solution.append(dfs(graph, h_id, exact_solution))
+
     elapsed_time = time.time() - start_time
     print("global maxima: " + str(exact_solution))
-    print("-> runtime (exact search): %0.3fs" % float(elapsed_time))
-    
+    print("=> runtime (exact search): %0.3fs" % float(elapsed_time))
     
 
+# returns the node's heuristic value according to the given heuristic ID
 def heuristic_function(heuristic_id, graph, node):
     if heuristic_id == FRIENDS:
         return graph.neighbor_count(node)
@@ -59,27 +62,33 @@ def heuristic_function(heuristic_id, graph, node):
 # decides initial node, runs hill climbing search iteratively with randomly chosen
 # starting points, checks when to stop iterations
 def search(graph, heuristic_id, k = 1):
-    influencers = []
-    iterations = k * 5; # TODO: decidir isso
+    local_maxima = set() # all unique results found
+    iterations = k * 5;
+    it = 1 # iteration counter
 
     print("k = " + str(k))
 
-
-    for i in range(iterations):
+    # for i in range(iterations):
+    while it < iterations or len(local_maxima) < k:
         initial_node = random_node(graph)
 
-        print("\n-- search iteration " + str(i+1) + " of " + str(iterations))
+        print("\n-- search iteration " + str(it))
         print("initial node: " + str(initial_node))
 
-        local_max, value = hill_climbing(graph, initial_node, heuristic_id)
+        local_max, value = hill_climbing(graph, initial_node, heuristic_id, local_maxima)
 
         print("local max: " + str(local_max))
         print("value: " + str(value))
-        influencers.append((local_max, value))
+        local_maxima.add((local_max, value))
 
-    influencers = list(set(influencers))
-    influencers.sort(key = get_value, reverse = True)
-    solution = [node for (node, value) in influencers[:k]]
+        it += 1
+
+    # influencers = list(set(influencers))
+    # influencers.sort(key = get_value, reverse = True)
+    # solution = [node for (node, value) in influencers[:k]]
+    solution = list(local_maxima)
+    solution.sort(key = get_value, reverse = True)
+    solution = solution[:k]
 
     return solution
 
@@ -104,7 +113,7 @@ def next_node(graph, current_node, heuristic_id):
 """
 
 # hill climbing search
-def hill_climbing(graph, initial_node, heuristic_id):
+def hill_climbing(graph, initial_node, heuristic_id, locals_found):
     if initial_node not in graph.neighbors:
         print("ERROR: Initial node given is not in graph.")
         return
@@ -123,14 +132,13 @@ def hill_climbing(graph, initial_node, heuristic_id):
             if n not in explored:
                 count = heuristic_function(heuristic_id, graph, n)
 
-                if count >= max_count: # >: no sideways moves; >=: yes sideways moves
+                if count >= max_count: # allows sideways moves
                     max_count = count
                     max_neighbor = n
         
         next, next_value = max_neighbor, max_count
         current_value = heuristic_function(heuristic_id, graph, current)
 
-        #if next is None or heuristic_function(heuristic_id, graph, next) < heuristic_function(heuristic_id, graph, current):
         if next is None or next_value < current_value:
             return current, current_value # end of search
 
@@ -161,7 +169,40 @@ def reachable(graph, solution):
     
     return len(reachable)
 
+# exact depth-first search
+# returns the global maximum node, excluding the nodes in the excluded list
+# as a (node, value) pair
+def dfs(graph, heuristic_id, excluded):
+    initial_node = random_node(graph)
+    visited = set()
+    stack = []
 
+    for (node, value) in excluded:
+        # add excluded nodes so they won't be visited during the search
+        visited.add(node)
+
+    max_value = 0
+    global_max = None
+
+    stack.append(initial_node)
+
+    while stack:
+        current = stack.pop()
+
+        if current not in visited:
+            value = heuristic_function(heuristic_id, graph, current)
+
+            if value > max_value:
+                max_value = value
+                global_max = current
+
+            visited.add(current)
+            stack.extend(graph.neighbors[current] - visited)
+
+    return (global_max, max_value)
+
+
+"""
 # exact depth-first search
 # returns the n highest-valued nodes in the whole graph according to the chosen heuristic function
 # as (node, value) tuples
@@ -187,7 +228,7 @@ def dfs(graph, heuristic_id, n = 1):
     maxes = maxes[:n] # leave only the n first
 
     return maxes
-
+"""
 
 def get_value(node_value_pair):
     if len(node_value_pair) == 2:
@@ -195,21 +236,6 @@ def get_value(node_value_pair):
         
     else:
         print("ERROR: get_value() should receive a tuple containing a node ID and the node's heuristic value.")
-
-
-# this is cheating but it's so much easier
-def hardcoded_global_max_circles(graph):
-    max_groups = 0
-    max_node = None
-
-    for node in graph.groups:
-        count = graph.group_count(node)
-
-        if count > max_groups:
-            max_groups = count
-            max_node = node
-    
-    return node, max_groups
 
 
 main()
