@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from graph import *
-import yt_init, amz_init
+import yt_init
 import random
 import time
 import sys, os
