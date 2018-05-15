@@ -16,8 +16,8 @@ if "src" in os.getcwd():
 
 
 def main():
-    # for testing    
-    h_id = GROUPS
+    # for testing
+    h_id = FRIENDS
     k = 10
     
     start_time = time.time()
@@ -64,7 +64,7 @@ def heuristic_function(heuristic_id, graph, node):
 def search(graph, heuristic_id, k = 1):
     local_maxima = set() # all unique results found
     iterations = k * 5;
-    it = 1 # iteration counter
+    it = 0 # iteration counter
 
     print("k = " + str(k))
 
@@ -72,7 +72,7 @@ def search(graph, heuristic_id, k = 1):
     while it < iterations or len(local_maxima) < k:
         initial_node = random_node(graph)
 
-        print("\n-- search iteration " + str(it))
+        print("\n-- search iteration " + str(it+1))
         print("initial node: " + str(initial_node))
 
         local_max, value = hill_climbing(graph, initial_node, heuristic_id, local_maxima)

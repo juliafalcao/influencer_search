@@ -1,0 +1,88 @@
+=> runtime (graph construction): 20.157s
+
+RANDOM-RESTART HILL CLIMBING:
+k = 3
+
+-- search iteration 1
+initial node: 509172
+local max: 117306
+value: 227
+
+-- search iteration 2
+initial node: 464499
+local max: 10553
+value: 91
+
+-- search iteration 3
+initial node: 567364
+local max: 117306
+value: 227
+
+-- search iteration 4
+initial node: 517843
+local max: 117306
+value: 227
+
+-- search iteration 5
+initial node: 72314
+local max: 276
+value: 143
+
+-- search iteration 6
+initial node: 1091441
+local max: 117306
+value: 227
+
+-- search iteration 7
+initial node: 234313
+local max: 68028
+value: 173
+
+-- search iteration 8
+initial node: 83252
+local max: 276
+value: 143
+
+-- search iteration 9
+initial node: 281199
+local max: 276
+value: 143
+
+-- search iteration 10
+initial node: 850166
+local max: 68028
+value: 173
+
+-- search iteration 11
+initial node: 186294
+local max: 276
+value: 143
+
+-- search iteration 12
+initial node: 793456
+local max: 11274
+value: 117
+
+-- search iteration 13
+initial node: 796316
+local max: 68028
+value: 173
+
+-- search iteration 14
+initial node: 781328
+local max: 26714
+value: 61
+
+-- search iteration 15
+initial node: 157115
+local max: 27260
+value: 118
+
+solution: [(117306, 227), (68028, 173), (276, 143)]
+=> runtime (heuristic search): 0.777s
+
+EXACT DEPTH-FIRST SEARCH:
+global maxima: [(2711, 227), (117306, 227), (68028, 173)]
+=> runtime (exact search): 15.072s
+
+[Done] exited with code=0 in 38.696 seconds

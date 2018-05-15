@@ -1,0 +1,504 @@
+=> runtime (graph construction): 20.855s
+
+RANDOM-RESTART HILL CLIMBING:
+k = 10
+
+-- search iteration 1
+initial node: 111684
+local max: 1072
+value: 28754
+
+-- search iteration 2
+initial node: 1140689
+local max: 663606
+value: 4422
+
+-- search iteration 3
+initial node: 1099294
+local max: 1072
+value: 28754
+
+-- search iteration 4
+initial node: 764582
+local max: 1072
+value: 28754
+
+-- search iteration 5
+initial node: 801733
+local max: 1072
+value: 28754
+
+-- search iteration 6
+initial node: 87794
+local max: 1072
+value: 28754
+
+-- search iteration 7
+initial node: 422003
+local max: 1072
+value: 28754
+
+-- search iteration 8
+initial node: 842701
+local max: 1072
+value: 28754
+
+-- search iteration 9
+initial node: 785983
+local max: 1072
+value: 28754
+
+-- search iteration 10
+initial node: 577653
+local max: 1072
+value: 28754
+
+-- search iteration 11
+initial node: 848472
+local max: 1072
+value: 28754
+
+-- search iteration 12
+initial node: 871887
+local max: 1072
+value: 28754
+
+-- search iteration 13
+initial node: 855553
+local max: 1072
+value: 28754
+
+-- search iteration 14
+initial node: 752265
+local max: 1072
+value: 28754
+
+-- search iteration 15
+initial node: 105288
+local max: 1072
+value: 28754
+
+-- search iteration 16
+initial node: 175038
+local max: 1072
+value: 28754
+
+-- search iteration 17
+initial node: 1022390
+local max: 1072
+value: 28754
+
+-- search iteration 18
+initial node: 804710
+local max: 1072
+value: 28754
+
+-- search iteration 19
+initial node: 866039
+local max: 482709
+value: 9762
+
+-- search iteration 20
+initial node: 105983
+local max: 1072
+value: 28754
+
+-- search iteration 21
+initial node: 665060
+local max: 1072
+value: 28754
+
+-- search iteration 22
+initial node: 270740
+local max: 1072
+value: 28754
+
+-- search iteration 23
+initial node: 1033683
+local max: 1072
+value: 28754
+
+-- search iteration 24
+initial node: 409902
+local max: 1072
+value: 28754
+
+-- search iteration 25
+initial node: 595600
+local max: 1072
+value: 28754
+
+-- search iteration 26
+initial node: 742417
+local max: 1072
+value: 28754
+
+-- search iteration 27
+initial node: 419856
+local max: 1072
+value: 28754
+
+-- search iteration 28
+initial node: 169378
+local max: 1072
+value: 28754
+
+-- search iteration 29
+initial node: 696961
+local max: 1072
+value: 28754
+
+-- search iteration 30
+initial node: 915307
+local max: 1072
+value: 28754
+
+-- search iteration 31
+initial node: 1155390
+local max: 1072
+value: 28754
+
+-- search iteration 32
+initial node: 48216
+local max: 1072
+value: 28754
+
+-- search iteration 33
+initial node: 789434
+local max: 1072
+value: 28754
+
+-- search iteration 34
+initial node: 14627
+local max: 1072
+value: 28754
+
+-- search iteration 35
+initial node: 335846
+local max: 1072
+value: 28754
+
+-- search iteration 36
+initial node: 776872
+local max: 1072
+value: 28754
+
+-- search iteration 37
+initial node: 191898
+local max: 1072
+value: 28754
+
+-- search iteration 38
+initial node: 225703
+local max: 1072
+value: 28754
+
+-- search iteration 39
+initial node: 688582
+local max: 1072
+value: 28754
+
+-- search iteration 40
+initial node: 989006
+local max: 618574
+value: 13
+
+-- search iteration 41
+initial node: 254631
+local max: 1072
+value: 28754
+
+-- search iteration 42
+initial node: 412504
+local max: 1072
+value: 28754
+
+-- search iteration 43
+initial node: 971002
+local max: 1072
+value: 28754
+
+-- search iteration 44
+initial node: 129702
+local max: 1072
+value: 28754
+
+-- search iteration 45
+initial node: 167647
+local max: 1072
+value: 28754
+
+-- search iteration 46
+initial node: 805535
+local max: 1072
+value: 28754
+
+-- search iteration 47
+initial node: 170534
+local max: 1072
+value: 28754
+
+-- search iteration 48
+initial node: 673491
+local max: 1072
+value: 28754
+
+-- search iteration 49
+initial node: 746416
+local max: 1072
+value: 28754
+
+-- search iteration 50
+initial node: 1063339
+local max: 1072
+value: 28754
+
+-- search iteration 51
+initial node: 642808
+local max: 663606
+value: 4422
+
+-- search iteration 52
+initial node: 779337
+local max: 1072
+value: 28754
+
+-- search iteration 53
+initial node: 724283
+local max: 1072
+value: 28754
+
+-- search iteration 54
+initial node: 1032518
+local max: 1072
+value: 28754
+
+-- search iteration 55
+initial node: 981593
+local max: 482709
+value: 9762
+
+-- search iteration 56
+initial node: 748856
+local max: 1072
+value: 28754
+
+-- search iteration 57
+initial node: 655717
+local max: 1072
+value: 28754
+
+-- search iteration 58
+initial node: 405698
+local max: 1072
+value: 28754
+
+-- search iteration 59
+initial node: 1121541
+local max: 1121535
+value: 28
+
+-- search iteration 60
+initial node: 913631
+local max: 1072
+value: 28754
+
+-- search iteration 61
+initial node: 15963
+local max: 1072
+value: 28754
+
+-- search iteration 62
+initial node: 953872
+local max: 1072
+value: 28754
+
+-- search iteration 63
+initial node: 280263
+local max: 1072
+value: 28754
+
+-- search iteration 64
+initial node: 124451
+local max: 1072
+value: 28754
+
+-- search iteration 65
+initial node: 511901
+local max: 1072
+value: 28754
+
+-- search iteration 66
+initial node: 223860
+local max: 1072
+value: 28754
+
+-- search iteration 67
+initial node: 92291
+local max: 1072
+value: 28754
+
+-- search iteration 68
+initial node: 956363
+local max: 663931
+value: 8843
+
+-- search iteration 69
+initial node: 812994
+local max: 1072
+value: 28754
+
+-- search iteration 70
+initial node: 277285
+local max: 1072
+value: 28754
+
+-- search iteration 71
+initial node: 534294
+local max: 1072
+value: 28754
+
+-- search iteration 72
+initial node: 499232
+local max: 1072
+value: 28754
+
+-- search iteration 73
+initial node: 395238
+local max: 1072
+value: 28754
+
+-- search iteration 74
+initial node: 34733
+local max: 1072
+value: 28754
+
+-- search iteration 75
+initial node: 619966
+local max: 567082
+value: 6
+
+-- search iteration 76
+initial node: 1036778
+local max: 1072
+value: 28754
+
+-- search iteration 77
+initial node: 992390
+local max: 1072
+value: 28754
+
+-- search iteration 78
+initial node: 565790
+local max: 565790
+value: 9
+
+-- search iteration 79
+initial node: 459426
+local max: 1072
+value: 28754
+
+-- search iteration 80
+initial node: 690201
+local max: 1072
+value: 28754
+
+-- search iteration 81
+initial node: 102786
+local max: 1072
+value: 28754
+
+-- search iteration 82
+initial node: 1115619
+local max: 1072
+value: 28754
+
+-- search iteration 83
+initial node: 582956
+local max: 1072
+value: 28754
+
+-- search iteration 84
+initial node: 403252
+local max: 1072
+value: 28754
+
+-- search iteration 85
+initial node: 96393
+local max: 1072
+value: 28754
+
+-- search iteration 86
+initial node: 215778
+local max: 1072
+value: 28754
+
+-- search iteration 87
+initial node: 826236
+local max: 1072
+value: 28754
+
+-- search iteration 88
+initial node: 754104
+local max: 1072
+value: 28754
+
+-- search iteration 89
+initial node: 973921
+local max: 832549
+value: 43
+
+-- search iteration 90
+initial node: 993774
+local max: 1072
+value: 28754
+
+-- search iteration 91
+initial node: 776163
+local max: 1072
+value: 28754
+
+-- search iteration 92
+initial node: 769469
+local max: 1072
+value: 28754
+
+-- search iteration 93
+initial node: 309533
+local max: 1072
+value: 28754
+
+-- search iteration 94
+initial node: 399015
+local max: 1072
+value: 28754
+
+-- search iteration 95
+initial node: 171799
+local max: 1072
+value: 28754
+
+-- search iteration 96
+initial node: 60191
+local max: 1072
+value: 28754
+
+-- search iteration 97
+initial node: 755123
+local max: 1072
+value: 28754
+
+-- search iteration 98
+initial node: 1062750
+local max: 1062739
+value: 13
+
+solution: [(1072, 28754), (482709, 9762), (663931, 8843), (663606, 4422), (832549, 43), (1121535, 28), (618574, 13), (1062739, 13), (565790, 9), (567082, 6)]
+=> runtime (heuristic search): 9.065s
+
+EXACT DEPTH-FIRST SEARCH:
+global maxima: [(1072, 28754), (363, 14641), (35661, 11281), (106, 10461), (482709, 9762), (663931, 8843), (929, 7917), (808, 6102), (27837, 5393), (108624, 4899)]
+=> runtime (exact search): 55.116s
+
+[Done] exited with code=0 in 88.003 seconds
+

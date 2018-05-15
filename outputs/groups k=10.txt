@@ -1,0 +1,263 @@
+=> runtime (graph construction): 18.434s
+
+RANDOM-RESTART HILL CLIMBING:
+k = 10
+
+-- search iteration 1
+initial node: 318531
+local max: 117306
+value: 227
+
+-- search iteration 2
+initial node: 355157
+local max: 276
+value: 143
+
+-- search iteration 3
+initial node: 877290
+local max: 117306
+value: 227
+
+-- search iteration 4
+initial node: 133046
+local max: 68028
+value: 173
+
+-- search iteration 5
+initial node: 135473
+local max: 276
+value: 143
+
+-- search iteration 6
+initial node: 13620
+local max: 276
+value: 143
+
+-- search iteration 7
+initial node: 418483
+local max: 276
+value: 143
+
+-- search iteration 8
+initial node: 837999
+local max: 117306
+value: 227
+
+-- search iteration 9
+initial node: 306732
+local max: 276
+value: 143
+
+-- search iteration 10
+initial node: 301174
+local max: 117306
+value: 227
+
+-- search iteration 11
+initial node: 490452
+local max: 117306
+value: 227
+
+-- search iteration 12
+initial node: 1154201
+local max: 276
+value: 143
+
+-- search iteration 13
+initial node: 400225
+local max: 2711
+value: 227
+
+-- search iteration 14
+initial node: 486973
+local max: 276
+value: 143
+
+-- search iteration 15
+initial node: 362303
+local max: 117306
+value: 227
+
+-- search iteration 16
+initial node: 105481
+local max: 276
+value: 143
+
+-- search iteration 17
+initial node: 1097737
+local max: 117306
+value: 227
+
+-- search iteration 18
+initial node: 543699
+local max: 117306
+value: 227
+
+-- search iteration 19
+initial node: 912644
+local max: 117306
+value: 227
+
+-- search iteration 20
+initial node: 97443
+local max: 21303
+value: 120
+
+-- search iteration 21
+initial node: 1103250
+local max: 117306
+value: 227
+
+-- search iteration 22
+initial node: 354758
+local max: 117306
+value: 227
+
+-- search iteration 23
+initial node: 364421
+local max: 117306
+value: 227
+
+-- search iteration 24
+initial node: 1086190
+local max: 1086190
+value: 0
+
+-- search iteration 25
+initial node: 103016
+local max: 11810
+value: 112
+
+-- search iteration 26
+initial node: 915987
+local max: 10553
+value: 91
+
+-- search iteration 27
+initial node: 771938
+local max: 26714
+value: 61
+
+-- search iteration 28
+initial node: 851746
+local max: 117306
+value: 227
+
+-- search iteration 29
+initial node: 569149
+local max: 117306
+value: 227
+
+-- search iteration 30
+initial node: 39226
+local max: 117306
+value: 227
+
+-- search iteration 31
+initial node: 236278
+local max: 117306
+value: 227
+
+-- search iteration 32
+initial node: 252478
+local max: 117306
+value: 227
+
+-- search iteration 33
+initial node: 778459
+local max: 276
+value: 143
+
+-- search iteration 34
+initial node: 766827
+local max: 117306
+value: 227
+
+-- search iteration 35
+initial node: 394426
+local max: 276
+value: 143
+
+-- search iteration 36
+initial node: 767065
+local max: 117306
+value: 227
+
+-- search iteration 37
+initial node: 704585
+local max: 276
+value: 143
+
+-- search iteration 38
+initial node: 633523
+local max: 633541
+value: 0
+
+-- search iteration 39
+initial node: 817961
+local max: 26714
+value: 61
+
+-- search iteration 40
+initial node: 762382
+local max: 10553
+value: 91
+
+-- search iteration 41
+initial node: 345722
+local max: 117306
+value: 227
+
+-- search iteration 42
+initial node: 755034
+local max: 117306
+value: 227
+
+-- search iteration 43
+initial node: 569600
+local max: 276
+value: 143
+
+-- search iteration 44
+initial node: 539449
+local max: 186096
+value: 18
+
+-- search iteration 45
+initial node: 115214
+local max: 11810
+value: 112
+
+-- search iteration 46
+initial node: 259619
+local max: 11274
+value: 117
+
+-- search iteration 47
+initial node: 1066100
+local max: 1066100
+value: 0
+
+-- search iteration 48
+initial node: 448766
+local max: 11274
+value: 117
+
+-- search iteration 49
+initial node: 769160
+local max: 117306
+value: 227
+
+-- search iteration 50
+initial node: 311384
+local max: 58331
+value: 2
+
+solution: [(117306, 227), (2711, 227), (68028, 173), (276, 143), (21303, 120), (11274, 117), (11810, 112), (10553, 91), (26714, 61), (186096, 18)]
+=> runtime (heuristic search): 2.503s
+
+EXACT DEPTH-FIRST SEARCH:
+global maxima: [(2711, 227), (117306, 227), (68028, 173), (33788, 169), (276, 143), (7682, 140), (93053, 130), (11850, 125), (118817, 122), (21303, 120)]
+=> runtime (exact search): 46.221s
+
+[Done] exited with code=0 in 70.166 seconds
