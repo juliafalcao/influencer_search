@@ -12,15 +12,16 @@ GROUPS = 2
 
 def main():
     # for testing
-    h_id = FRIENDS
+    h_id = GROUPS
     k = 10
     
     # build graph
     start_time = time.time()
     graph = yt_init.build_graph()
     elapsed_time = time.time() - start_time
-    print("=> runtime (graph construction): %0.3fs" % float(elapsed_time))
+    print("=> runtime (graph construction): %0.4fs" % float(elapsed_time))
 
+    """
     # run random-restart hill climbing search
     print("\nRANDOM-RESTART HILL CLIMBING:")
     start_time = time.time()
@@ -39,9 +40,15 @@ def main():
     elapsed_time = time.time() - start_time
     print("global maxima: " + str(exact_solution))
     print("=> runtime (exact search): %0.3fs" % float(elapsed_time))
+    """
 
     # TODO: tabu search
-    
+    print("\nTABU SEARCH:")
+    start_time = time.time()
+    solution = tabu_search(graph, h_id)
+    print(f"solution: {solution}")
+    elapsed_time = time.time() - start_time
+    print("=> runtime (tabu search): %0.3fs" % float(elapsed_time))
 
 # returns the node's heuristic value according to the given heuristic ID
 def heuristic_function(heuristic_id, graph, node):
@@ -61,7 +68,7 @@ def heuristic_function(heuristic_id, graph, node):
 # starting points, checks when to stop iterations
 def search(graph, heuristic_id, k = 1):
     local_maxima = set() # all unique results found
-    iterations = k * 5;
+    iterations = k * 5
     it = 0 # iteration counter
 
     print("k = " + str(k))
@@ -157,5 +164,43 @@ def dfs(graph, heuristic_id, excluded):
             stack.extend(graph.neighbors[current] - visited)
 
     return (global_max, max_value)
+
+# tabu search
+def tabu_search(graph, heuristic_id, tabu_size = 5):
+    tabu_list = []
+    initial_solution = random_node(graph) # ?
+    best_solution = initial_solution
+    best_candidate = initial_solution
+    tabu_list.append(initial_solution)
+    max_it = 100
+    it = 0
+
+    while (it < max_it): # stopping condition?
+        s_neighborhood = list(graph.neighbors[best_candidate]) # ? build neighborhood
+        best_candidate = s_neighborhood[0]
+
+        for candidate in s_neighborhood:
+            candidate_value = heuristic_function(heuristic_id, graph, candidate)
+            best_candidate_value = heuristic_function(heuristic_id, graph, best_candidate)
+
+            if candidate not in tabu_list and candidate_value > best_candidate_value:
+                best_candidate = candidate
+        
+        best_candidate_value = heuristic_function(heuristic_id, graph, best_candidate)
+        best_solution_value = heuristic_function(heuristic_id, graph, best_solution)
+
+        if best_candidate_value > best_solution_value:
+            best_solution = best_candidate
+
+        tabu_list.append(best_candidate)
+
+        if len(tabu_list) > tabu_size:
+            tabu_list.pop(0)
+
+        it += 1
+
+    return best_solution
+
+
 
 main()
