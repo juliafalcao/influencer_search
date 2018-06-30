@@ -14,7 +14,7 @@ def build_graph():
 
     # edges
     try:
-        f = open("data/youtube/edges.txt")
+        f = open("../data/youtube/edges.txt")
 
         for line in f:
             if "#" in line:
@@ -26,12 +26,12 @@ def build_graph():
         f.close()
 
     except IOError:
-        print("Could not open 'data/youtube/edges.txt'.")
+        print("Could not open '../data/youtube/edges.txt'.")
         return
 
     # groups
     try:
-        f = open("data/youtube/allcmty.txt")
+        f = open("../data/youtube/allcmty.txt")
         i = 0
 
         for line in f:
@@ -42,7 +42,7 @@ def build_graph():
         f.close()
 
     except IOError:
-        print("Could not open 'data/youtube/allcmty.txt'.")
+        print("Could not open '../data/youtube/allcmty.txt'.")
         return
 
     return graph
