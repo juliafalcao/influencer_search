@@ -10,12 +10,17 @@ import sys, os
 FRIENDS = 1
 GROUPS = 2
 
+# to index (node, value) pairs clearly
+NODE = 0
+VALUE = 1
+
 # whether to print debug stuff or not
 DEBUG = False
 
 def main():
     # for testing
     h_id = FRIENDS
+    k = 10
     
     # build graph
     start_time = time.time()
@@ -23,16 +28,16 @@ def main():
     elapsed_time = time.time() - start_time
     print("=> runtime (graph construction): %0.4fs" % float(elapsed_time))
 
-    
+    """
     # run random-restart hill climbing search
     print("\nRANDOM-RESTART HILL CLIMBING:")
     start_time = time.time()
     solution = search(graph, h_id)
     elapsed_time = time.time() - start_time
-    print("solution: " + str(solution))
+    print("solutions: " + str(solution))
     print("=> runtime (heuristic search): %0.3fs" % float(elapsed_time))
-    
     """
+
     # run exact depth-first search
     print("\nEXACT DEPTH-FIRST SEARCH:")
     start_time = time.time()
@@ -43,13 +48,13 @@ def main():
     elapsed_time = time.time() - start_time
     print("global maxima: " + str(exact_solution))
     print("=> runtime (exact search): %0.3fs" % float(elapsed_time))
-    """
+    
 
     # TODO: tabu search
     print("\nTABU SEARCH:")
     start_time = time.time()
-    solution = tabu_search(graph, h_id)
-    print(f"solution: {solution}")
+    solution = tabu_search(graph, h_id, k)
+    print(f"solutions: {solution}")
     elapsed_time = time.time() - start_time
     print("=> runtime (tabu search): %0.3fs" % float(elapsed_time))
 
@@ -169,12 +174,13 @@ def dfs(graph, heuristic_id, excluded):
     return (global_max, max_value)
 
 # tabu search
-def tabu_search(graph, heuristic_id, tabu_size = 5):
+def tabu_search(graph, heuristic_id, k = 1, tabu_size = 5):
     tabu_list = []
     initial_solution = random_node(graph) # ?
     print(f"initial solution: {initial_solution}")
 
-    best_solution = initial_solution
+    best_solutions = [] # list of (node, value) pairs
+    best_solutions.append((initial_solution, heuristic_function(heuristic_id, graph, initial_solution)))
     best_candidate = initial_solution
     tabu_list.append(initial_solution)
     max_it = 20
@@ -182,25 +188,28 @@ def tabu_search(graph, heuristic_id, tabu_size = 5):
 
     while (it < max_it): # stopping condition?
         if (DEBUG): print(f"iteration {it}")
-        s_neighborhood = list(graph.neighbors[best_candidate]) # ? build neighborhood
-        best_candidate = s_neighborhood[0]
+        neighborhood = list(graph.neighbors[best_candidate]) # ? build neighborhood
+        best_candidate = neighborhood[0]
         if (DEBUG): print(f"best candidate: {best_candidate}")
 
-        for candidate in s_neighborhood:
+        for candidate in neighborhood:
             candidate_value = heuristic_function(heuristic_id, graph, candidate)
-            best_candidate_value = heuristic_function(heuristic_id, graph, best_candidate)
 
-            if candidate not in tabu_list and candidate_value > best_candidate_value:
-                best_candidate = candidate
-                if (DEBUG): print(f"best candidate: {best_candidate}")
+            if (candidate, candidate_value) not in best_solutions:
+                best_candidate_value = heuristic_function(heuristic_id, graph, best_candidate)
+
+                if candidate not in tabu_list and candidate_value > best_candidate_value:
+                    best_candidate = candidate
+                    if (DEBUG): print(f"best candidate: {best_candidate}")
         
         best_candidate_value = heuristic_function(heuristic_id, graph, best_candidate)
-        best_solution_value = heuristic_function(heuristic_id, graph, best_solution)
+        best_solution_value = heuristic_function(heuristic_id, graph, best_solutions[0][VALUE])
 
         if best_candidate_value > best_solution_value:
-            best_solution = best_candidate
+            best_solutions.append((best_candidate, best_candidate_value))
+            best_solutions.sort(key = lambda x: x[1], reverse = True)
         
-        if (DEBUG): print(f"best solution: {best_solution}")
+        if (DEBUG): print(f"best solutions: {best_solutions}")
 
         tabu_list.append(best_candidate)
 
@@ -211,7 +220,7 @@ def tabu_search(graph, heuristic_id, tabu_size = 5):
 
         it += 1
 
-    return (best_solution, heuristic_function(heuristic_id, graph, best_solution))
+    return best_solutions[:k]
 
 
 main()
