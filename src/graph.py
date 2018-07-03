@@ -1,26 +1,23 @@
 """
 Simple graph structure (undirected, not weighted).
-Stores information about each user's friends and the friend groups they're a part of.
+Stores information about each user's connections and the user groups they're a part of.
 """
 
 class Graph:
     graph_id = None  # ID number
 
     neighbors = {}
-    """
-    Dict where a key is a node and its value is a set of its neighbors, or nodes it's
-    connected to by an edge.
-    Each edge is represented twice in this structure: (x,y) -> x is in y's neighbors list and
-    y is in x's neighbors list.
-    """
+    # Dict where a key is a node and its value is a set of its neighbors.
+    # Each edge is represented twice: (x,y) -> x is in y's neighbors list and y is in x's neighbors list.
 
     groups = {}
-    """
-    Dict where a key is a node and its value is a set of groups it's in, represented by
-    sequential group IDs.
-    """
+    # Dict where a key is a node and its value is a set of groups it's in,
+    # represented by sequential group identifiers.
 
-    # class constructor
+    
+    """
+    class constructor
+    """
     def __init__(self, graph_id = -1, edges = None):
         self.graph_id = graph_id
 
@@ -28,9 +25,9 @@ class Graph:
             for edge in edges:
                 self.add_edge(edge[0], edge[1])
 
-
-    # representation
-    # for clearer visualization and debugging
+    """
+    representation (for clearer visualization and debugging)
+    """
     def __repr__(self):
         output = "CONNECTIONS:\n"
 
@@ -46,29 +43,32 @@ class Graph:
 
         return output
 
-    # add an undirected edge from x to y if it doesn't already exist and if x != y
+    """
+    add an undirected edge between x and y
+    (if it doesn't already exist and if x != y)
+    """
     def add_edge(self, x, y):
         if x == y:
             print("ERROR: You can't add a loop (edge from a node to itself).")
             return
       
-      
         if x not in self.neighbors:
-            self.neighbors[x] = set()
-            #put x in neighbors dict
-        if y not in self.neighbors:
-            self.neighbors[y] = set()
-            #put y in neighbors dict
-        if x not in self.neighbors[y]:
-            self.neighbors[y].add(x)
-            #put x as neighbor of y in neighbors dict
-        if y not in self.neighbors[x]:
-            self.neighbors[x].add(y)
-            #put y as neighbor of x in neighbors dict
+            self.neighbors[x] = set() # create x's neighbors set
 
-    # add a friend group
-    # youtube dataset
-    def add_yt_group(self, group_id, members = None):
+        if y not in self.neighbors:
+            self.neighbors[y] = set() # create y's neighbors set
+
+        if x not in self.neighbors[y]:
+            self.neighbors[y].add(x) # add x to y's neighbors set
+
+        if y not in self.neighbors[x]:
+            self.neighbors[x].add(y) # add y to x's neighbors set
+
+    """
+    add an user group
+    receives the group ID and members list, and adds the group to all the members' groups sets
+    """
+    def add_group(self, group_id, members = None):
         if members is None:
             members = []
 
@@ -78,26 +78,19 @@ class Graph:
 
             self.groups[node].add(group_id)
 
-
-    # facebook dataset: groups come separated by ego network
-    def add_fb_group(self, ego_id, group_id, members = None):
-        if members is None:
-            members = []
-        
-        for node in members:
-            if node not in self.groups:
-                self.groups[node] = set()
-
-            self.groups[node].add((ego_id, group_id))
-
-
-    # returns the amount of neighbors a node has
+    """
+    returns the amount of neighbors a given node has
+    """
     def neighbor_count(self, node):
         if node in self.neighbors:
             return len(self.neighbors[node])
+        
+        else:
+            return 0
 
-
-    # returns the amount of groups a node is a part of
+    """
+    returns the amount of groups a given node is a member of
+    """
     def group_count(self, node):
         if node in self.groups:
             return len(self.groups[node])
