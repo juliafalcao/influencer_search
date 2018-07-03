@@ -14,20 +14,15 @@ GROUPS = Graph.group_count
 NODE = 0
 VALUE = 1
 
-# whether to print debug stuff or not
+# whether to print debug messages or not
 DEBUG = False
 
-def main():
-    # for testing
-    h = FRIENDS
-    k = 10
-    
+def test(heuristic, k):
     # build graph
     start_time = time.time()
     graph = build_graph(edges_filename = "../data/youtube/edges.txt", groups_filename = "../data/youtube/allcmty.txt")
     elapsed_time = time.time() - start_time
     print("=> runtime (graph construction): %0.4fs" % float(elapsed_time))
-
     
     # run random-restart hill climbing search
     print("\nRANDOM-RESTART HILL CLIMBING:")
@@ -41,15 +36,12 @@ def main():
     print("\nEXACT DEPTH-FIRST SEARCH:")
     start_time = time.time()
     exact_solution = []
-    for i in range(k):
-        exact_solution.append(dfs(graph, h, exact_solution))
+    for i in range(k): exact_solution.append(dfs(graph, h, exact_solution)) # TODO: optimize
 
     elapsed_time = time.time() - start_time
     print("global maxima: " + str(exact_solution))
     print("=> runtime (exact search): %0.3fs" % float(elapsed_time))
     
-
-    # TODO: tabu search
     print("\nTABU SEARCH:")
     start_time = time.time()
     solution = tabu_search(graph, h, k)
@@ -57,23 +49,12 @@ def main():
     elapsed_time = time.time() - start_time
     print("=> runtime (tabu search): %0.3fs" % float(elapsed_time))
 
-# deprecated
 """
-def heuristic_function(heuristic_id, graph, node):
-    if heuristic_id == FRIENDS:
-        return graph.neighbor_count(node)
-    
-    elif heuristic_id == GROUPS:
-        return graph.group_count(node)
-    
-    else:
-        print("ERROR: Invalid heuristic ID.")
-        return
+main search function
+- randomly chooses initial nodes for all iterations
+- runs hill climbing search iteratively
+- checks when to stop iterations
 """
-
-# main search function
-# decides initial node, runs hill climbing search iteratively with randomly chosen
-# starting points, checks when to stop iterations
 def search(graph, heuristic_function, k = 1):
     local_maxima = set() # all unique results found
     iterations = k * 5
@@ -102,7 +83,10 @@ def search(graph, heuristic_function, k = 1):
 
     return solution
 
-# hill climbing search
+
+"""
+simple hill climbing search
+"""
 def hill_climbing(graph, initial_node, heuristic_function):
     if initial_node not in graph.neighbors:
         print("ERROR: Initial node given is not in graph.")
@@ -136,15 +120,19 @@ def hill_climbing(graph, initial_node, heuristic_function):
         explored.add(next)
 
 
-# choose a random node from the graph
+"""
+get random node from the graph
+"""
 def random_node(graph):
     nodes = list(graph.neighbors.keys())
     return random.choice(nodes)
 
 
-# exact depth-first search
-# returns the global maximum node, excluding the nodes in the excluded list
-# as a (node, value) pair
+"""
+exact depth-first search
+returns the global maximum node, excluding the nodes in the excluded list
+as a (node, value) pair
+"""
 def dfs(graph, heuristic_function, excluded):
     initial_node = random_node(graph)
     visited = set()
@@ -174,7 +162,10 @@ def dfs(graph, heuristic_function, excluded):
 
     return (global_max, max_value)
 
-# tabu search
+
+"""
+tabu search
+"""
 def tabu_search(graph, heuristic_function, k = 1, tabu_size = 5):
     tabu_list = []
     initial_solution = random_node(graph) # ?
@@ -224,4 +215,4 @@ def tabu_search(graph, heuristic_function, k = 1, tabu_size = 5):
     return best_solutions[:k]
 
 
-main()
+test(FRIENDS, 5)
