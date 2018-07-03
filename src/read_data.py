@@ -1,43 +1,40 @@
 """
-Initializes the full graph for the com-Youtube dataset with all the users (nodes)
+Creates the full graph for the com-Youtube dataset with all the users (nodes)
 and connections (edges) between them and the groups each one is a part of.
 """
 
 from graph import *
-import sys
-import os
-from subprocess import check_output
+import pandas as pd
 
-
-def build_graph():
+"""
+Function that builds the graph from a file containing the edges and a file containing the groups.
+"""
+def build_graph(edges_filename, groups_filename):
     graph = Graph()
 
     # edges
     try:
-        f = open("../data/youtube/edges.txt")
+        f = open(edges_filename)
 
         for line in f:
-            if "#" in line:
-                continue
-
             nodes = line.strip().split("\t")
             graph.add_edge(int(nodes[0]), int(nodes[1]))
 
         f.close()
 
     except IOError:
-        print("Could not open '../data/youtube/edges.txt'.")
+        print(f"Could not open '{edges_filename}'.")
         return
 
     # groups
     try:
-        f = open("../data/youtube/allcmty.txt")
-        i = 0
+        f = open(groups_filename)
+        group_id = 0
 
         for line in f:
             members = [int(m) for m in line.strip().split("\t")]
-            graph.add_yt_group(i, members)
-            i += 1
+            graph.add_group(group_id, members)
+            group_id += 1
 
         f.close()
 

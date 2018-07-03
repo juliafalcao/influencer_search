@@ -7,8 +7,8 @@ class Graph:
     graph_id = None  # ID number
 
     neighbors = {}
-    # Dict where a key is a node and its value is a set of its neighbors.
-    # Each edge is represented twice: (x,y) -> x is in y's neighbors list and y is in x's neighbors list.
+    # dict where a key is a node and its value is a set of its neighbors.
+    # (x,y) -> x is in y's neighbors list and y is in x's neighbors list.
 
     groups = {}
     # Dict where a key is a node and its value is a set of groups it's in,

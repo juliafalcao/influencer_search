@@ -9,7 +9,6 @@ ytgraph.txt
 data/facebook/
 data/orkut/
 
-src/digraph.py
 src/__pycache__/
 src/*.pyc
 src/*.pyc

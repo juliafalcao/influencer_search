@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from graph import *
-import yt_init
+from read_data import build_graph
 import random
 import time
 import sys, os
@@ -24,9 +24,11 @@ def main():
     
     # build graph
     start_time = time.time()
-    graph = yt_init.build_graph()
+    graph = build_graph(edges_filename = "../data/youtube/edges.txt", groups_filename = "../data/youtube/allcmty.txt")
     elapsed_time = time.time() - start_time
     print("=> runtime (graph construction): %0.4fs" % float(elapsed_time))
+
+    exit()
 
     """
     # run random-restart hill climbing search
