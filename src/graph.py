@@ -34,13 +34,12 @@ class Graph:
         for n in self.neighbors:
             output += " " + str(n) + ": " + str(self.neighbors[n]) + "\n"
 
-        output += "\GROUPS:\n"
+        output += "\nGROUPS:\n"
 
         for n in self.groups:
             output += " " + str(n) + ": " + str(self.groups[n]) + "\n"
 
         output += "\n"
-
         return output
 
     """
