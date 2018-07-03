@@ -16,7 +16,7 @@ class Graph:
 
     
     """
-    class constructor
+    class initializer
     """
     def __init__(self, graph_id = -1, edges = None):
         self.graph_id = graph_id

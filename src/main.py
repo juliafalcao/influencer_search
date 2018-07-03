@@ -28,7 +28,7 @@ def main():
     elapsed_time = time.time() - start_time
     print("=> runtime (graph construction): %0.4fs" % float(elapsed_time))
 
-    """
+    
     # run random-restart hill climbing search
     print("\nRANDOM-RESTART HILL CLIMBING:")
     start_time = time.time()
@@ -36,7 +36,6 @@ def main():
     elapsed_time = time.time() - start_time
     print("solutions: " + str(solution))
     print("=> runtime (heuristic search): %0.3fs" % float(elapsed_time))
-    """
 
     # run exact depth-first search
     print("\nEXACT DEPTH-FIRST SEARCH:")

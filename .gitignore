@@ -3,12 +3,12 @@
 .python-version
 
 nul
-draft.py
 ytgraph.txt
 
 data/facebook/
 data/orkut/
 
 src/__pycache__/
+src/draft.py
 src/*.pyc
 src/*.pyc
