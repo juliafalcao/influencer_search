@@ -2,9 +2,14 @@
 .vscode/
 .python-version
 
-draft.py
 nul
-fbgraph.txt
+draft.py
 ytgraph.txt
-data/facebook
-data/orkut
+
+data/facebook/
+data/orkut/
+
+src/digraph.py
+src/__pycache__/
+src/*.pyc
+src/*.pyc
