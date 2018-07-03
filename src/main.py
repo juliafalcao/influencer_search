@@ -29,11 +29,6 @@ def run_tests(): # in construction
     rrhc_values = [pair[VALUE] for pair in rrhc_solution]
     dfs_values = [pair[VALUE] for pair in global_maxima]
 
-    x_values = list(range(1,k+1))
-    
-    plt.plot(x_values, rrhc_values, linewidth = 2, color = "crimson", marker = "o", label = "RRHC")
-    plt.plot(x_values, dfs_values, linewidth = 2, color = "darkturquoise", marker = "o", label = "global maxima")
-    
     plt.xticks(x_values, ["v" + str(x) for x in x_values])
     plt.xlabel("Vértices encontrados")
     plt.ylabel("Valores")
@@ -258,4 +253,8 @@ def tabu_search(graph, heuristic_function, k = 1, tabu_size = 5):
     return best_solutions[:k]
 
 
+<<<<<<< HEAD
 run_tests()
+=======
+test(FRIENDS, 5)
+>>>>>>> 31d26b371b516cbe04a9c0d4422c143a79b955ee
