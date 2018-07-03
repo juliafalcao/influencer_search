@@ -4,7 +4,7 @@ from graph import *
 from read_data import build_graph
 import random
 import time
-import sys, os
+import matplotlib.pyplot as plt
 
 # heuristic function aliases
 FRIENDS = Graph.neighbor_count
@@ -17,37 +17,80 @@ VALUE = 1
 # whether to print debug messages or not
 DEBUG = False
 
-def test(heuristic, k):
+def run_tests(): # in construction
+    k = 10
+    global_maxima = [(1072, 28754), (363, 14641), (35661, 11281), (106, 10461), (482709, 9762), (663931, 8843), (929, 7917), (808, 6102), (27837, 5393), (108624, 4899)]
+    rrhc_values = []
+    
+    for i in range(5):
+        rrhc_solution, rrhc_runtime, _, _, _, _ = test(FRIENDS, k = k, output = False, dfs = False, ts = False)
+        rrhc_values.append([pair[VALUE] for pair in rrhc_solution])
+
+    rrhc_values = [pair[VALUE] for pair in rrhc_solution]
+    dfs_values = [pair[VALUE] for pair in global_maxima]
+
+    x_values = list(range(1,k+1))
+    
+    plt.plot(x_values, rrhc_values, linewidth = 2, color = "crimson", marker = "o", label = "RRHC")
+    plt.plot(x_values, dfs_values, linewidth = 2, color = "darkturquoise", marker = "o", label = "global maxima")
+    
+    plt.xticks(x_values, ["v" + str(x) for x in x_values])
+    plt.xlabel("Vértices encontrados")
+    plt.ylabel("Valores")
+    plt.title(f"Random-Restart Hill Climbing (k = {k})")
+    plt.legend()
+    plt.show()
+
+
+"""
+test function
+receives the chosen heuristic and value of k
++ output: whether to print results
++ rrhc: whether to run random-restart hill climbing
++ dfs: whether to run exact depth-first search
++ ts: whether to run tabu search
+
+"""
+def test(heuristic, k, output = True, rrhc = True, dfs = True, ts = True):
     # build graph
     start_time = time.time()
     graph = build_graph(edges_filename = "../data/youtube/edges.txt", groups_filename = "../data/youtube/allcmty.txt")
-    elapsed_time = time.time() - start_time
-    print("=> runtime (graph construction): %0.4fs" % float(elapsed_time))
+    graph_runtime = time.time() - start_time
+    if output: print("=> runtime (graph construction): %0.4fs" % float(graph_runtime))
     
-    # run random-restart hill climbing search
-    print("\nRANDOM-RESTART HILL CLIMBING:")
-    start_time = time.time()
-    solution = search(graph, h)
-    elapsed_time = time.time() - start_time
-    print("solutions: " + str(solution))
-    print("=> runtime (heuristic search): %0.3fs" % float(elapsed_time))
+    rrhc_solution = None; rrhc_runtime = None;
+    dfs_solution = None; dfs_runtime = None;
+    ts_solution = None; ts_runtime = None;
 
-    # run exact depth-first search
-    print("\nEXACT DEPTH-FIRST SEARCH:")
-    start_time = time.time()
-    exact_solution = []
-    for i in range(k): exact_solution.append(dfs(graph, h, exact_solution)) # TODO: optimize
+    if rrhc:
+        # run random-restart hill climbing search
+        if output: print("\nRANDOM-RESTART HILL CLIMBING:")
+        start_time = time.time()
+        rrhc_solution = search(graph, heuristic, k)
+        rrhc_runtime = time.time() - start_time
+        if output: print("solution: " + str(rrhc_solution))
+        if output: print("=> runtime (random-restart hill climbing): %0.3fs" % float(rrhc_runtime))
 
-    elapsed_time = time.time() - start_time
-    print("global maxima: " + str(exact_solution))
-    print("=> runtime (exact search): %0.3fs" % float(elapsed_time))
+    if dfs:
+        # run exact depth-first search
+        if output: print("\nEXACT DEPTH-FIRST SEARCH:")
+        start_time = time.time()
+        dfs_solution = []
+        for i in range(k): dfs_solution.append(dfs(graph, heuristic, dfs_solution)) # TODO: optimize
+        dfs_runtime = time.time() - start_time
+        if output: print("global maxima: " + str(dfs_solution))
+        if output: print("=> runtime (exact search): %0.3fs" % float(dfs_runtime))
     
-    print("\nTABU SEARCH:")
-    start_time = time.time()
-    solution = tabu_search(graph, h, k)
-    print(f"solutions: {solution}")
-    elapsed_time = time.time() - start_time
-    print("=> runtime (tabu search): %0.3fs" % float(elapsed_time))
+    if ts:
+        if output: print("\nTABU SEARCH:")
+        start_time = time.time()
+        ts_solution = tabu_search(graph, heuristic, k)
+        ts_runtime = time.time() - start_time
+        if output: print(f"solution: {ts_solution}")
+        if output: print("=> runtime (tabu search): %0.3fs" % float(ts_runtime))
+
+
+    return rrhc_solution, rrhc_runtime, dfs_solution, dfs_runtime, ts_solution, ts_runtime
 
 """
 main search function
@@ -60,19 +103,19 @@ def search(graph, heuristic_function, k = 1):
     iterations = k * 5
     it = 0 # iteration counter
 
-    if (DEBUG): print("k = " + str(k))
+    if DEBUG: print("k = " + str(k))
 
     # for i in range(iterations):
     while it < iterations or len(local_maxima) < k:
         initial_node = random_node(graph)
 
-        if (DEBUG): print("\n-- search iteration " + str(it+1))
-        if (DEBUG): print("initial node: " + str(initial_node))
+        if DEBUG: print("\n-- search iteration " + str(it+1))
+        if DEBUG: print("initial node: " + str(initial_node))
 
         local_max, value = hill_climbing(graph, initial_node, heuristic_function)
 
-        if (DEBUG): print("local max: " + str(local_max))
-        if (DEBUG): print("value: " + str(value))
+        if DEBUG: print("local max: " + str(local_max))
+        if DEBUG: print("value: " + str(value))
         local_maxima.add((local_max, value))
 
         it += 1
@@ -169,7 +212,7 @@ tabu search
 def tabu_search(graph, heuristic_function, k = 1, tabu_size = 5):
     tabu_list = []
     initial_solution = random_node(graph) # ?
-    print(f"initial solution: {initial_solution}")
+    if DEBUG: print(f"initial solution: {initial_solution}")
 
     best_solutions = [] # list of (node, value) pairs
     best_solutions.append((initial_solution, heuristic_function(graph, initial_solution)))
@@ -179,10 +222,10 @@ def tabu_search(graph, heuristic_function, k = 1, tabu_size = 5):
     it = 0
 
     while (it < max_it): # stopping condition?
-        if (DEBUG): print(f"iteration {it}")
+        if DEBUG: print(f"iteration {it}")
         neighborhood = list(graph.neighbors[best_candidate]) # ? build neighborhood
         best_candidate = neighborhood[0]
-        if (DEBUG): print(f"best candidate: {best_candidate}")
+        if DEBUG: print(f"best candidate: {best_candidate}")
 
         for candidate in neighborhood:
             candidate_value = heuristic_function(graph, candidate)
@@ -192,7 +235,7 @@ def tabu_search(graph, heuristic_function, k = 1, tabu_size = 5):
 
                 if candidate not in tabu_list and candidate_value > best_candidate_value:
                     best_candidate = candidate
-                    if (DEBUG): print(f"best candidate: {best_candidate}")
+                    if DEBUG: print(f"best candidate: {best_candidate}")
         
         best_candidate_value = heuristic_function(graph, best_candidate)
         best_solution_value = heuristic_function(graph, best_solutions[0][VALUE])
@@ -201,18 +244,18 @@ def tabu_search(graph, heuristic_function, k = 1, tabu_size = 5):
             best_solutions.append((best_candidate, best_candidate_value))
             best_solutions.sort(key = lambda x: x[1], reverse = True)
         
-        if (DEBUG): print(f"best solutions: {best_solutions}")
+        if DEBUG: print(f"best solutions: {best_solutions}")
 
         tabu_list.append(best_candidate)
 
         if len(tabu_list) > tabu_size:
             tabu_list.pop(0)
         
-        if (DEBUG): print(f"tabu list: {tabu_list}")
+        if DEBUG: print(f"tabu list: {tabu_list}")
 
         it += 1
 
     return best_solutions[:k]
 
 
-test(FRIENDS, 5)
+run_tests()
