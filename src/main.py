@@ -28,8 +28,6 @@ def main():
     elapsed_time = time.time() - start_time
     print("=> runtime (graph construction): %0.4fs" % float(elapsed_time))
 
-    exit()
-
     """
     # run random-restart hill climbing search
     print("\nRANDOM-RESTART HILL CLIMBING:")

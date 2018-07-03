@@ -4,7 +4,6 @@ and connections (edges) between them and the groups each one is a part of.
 """
 
 from graph import *
-import pandas as pd
 
 """
 Function that builds the graph from a file containing the edges and a file containing the groups.
