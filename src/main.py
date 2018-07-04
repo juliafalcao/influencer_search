@@ -5,6 +5,7 @@ from read_data import build_graph
 import random
 import time
 import matplotlib.pyplot as plt
+import pandas as pd
 
 # heuristic function aliases
 FRIENDS = Graph.neighbor_count
@@ -18,43 +19,23 @@ VALUE = 1
 DEBUG = False
 
 def run_tests(): # in construction
-    k = 10
-    n_it = 5
-
-    global_maxima = [(1072, 28754), (363, 14641), (35661, 11281), (106, 10461), (482709, 9762), (663931, 8843), (929, 7917), (808, 6102), (27837, 5393), (108624, 4899)]
-    rrhc_solutions = [] # matrix
-    rrhc_values = []
-    
-    """
-    for i in range(n_it):
-        rrhc_solution, rrhc_runtime, _, _, _, _ = test(FRIENDS, k = k, output = False, dfs = False, ts = False)
-        rrhc_solutions.append(rrhc_solution)
-
-    for solution in rrhc_solutions:
-        solution_values = [pair[VALUE] for pair in solution]
-        rrhc_values.append(solution_values)
-    """
-    
-    x_values = list(range(k))
-    dfs_values = [pair[VALUE] for pair in global_maxima]
-    rrhc_values = [[28754, 9762, 4422, 2763, 2374, 168, 37, 29, 10, 7], [28754, 9762, 44, 41, 34, 34, 9, 8, 5, 4], [28754, 9762, 8843, 4422, 852, 353, 32, 23, 21, 6], [28754, 4422, 2374, 31, 23, 11, 9, 7, 5, 3], [28754, 9762, 8843, 569, 563, 95, 41, 32, 14, 4]]
-    ts_solution = [(1072, 28754), (363, 14641), (35661, 11281), (106, 10461), (663931, 8843), (929, 7917), (27837, 5393), (108624, 4899), (2687, 4877), (2633, 4364)]
+    # FRIENDS
+    rrhc_solution, rrhc_runtime, _, _, ts_solution, ts_runtime = test(FRIENDS, k = 10)
+    rrhc_values = [pair[VALUE] for pair in rrhc_solution]
     ts_values = [pair[VALUE] for pair in ts_solution]
+    f_results = pd.DataFrame.from_dict({"RRHC": rrhc_values, "BT": ts_values})
+    print(rrhc_values)
+    print(ts_values)
 
-    # plot
+    # GROUPS
+    rrhc_solution, rrhc_runtime, _, _, ts_solution, ts_runtime = test(GROUPS, k = 10)
+    rrhc_values = [pair[VALUE] for pair in rrhc_solution]
+    ts_values = [pair[VALUE] for pair in ts_solution]
+    g_results = pd.DataFrame.from_dict({"RRHC": rrhc_values, "BT": ts_values})
+    print(rrhc_values)
+    print(ts_values)
 
-    plt.plot(x_values, dfs_values, linewidth = 1, color = "black", marker = "o", markersize = 4, zorder = 5)
 
-    for i in range(4):
-        plt.plot(x_values, rrhc_values[i], linewidth = 1, linestyle = "--", color = "dimgrey", alpha = 0.9, marker = "o", markersize = 4, zorder = 2)
-
-    plt.plot(x_values, ts_values, linewidth = 1, color = "crimson", marker = "o", markersize = 4, zorder = 3)
-
-    plt.legend(["Máximos globais", "Vértices encontrados"])
-    plt.xticks(x_values, ["v" + str(x) for x in x_values])
-    plt.grid(color = "lightgrey", linestyle = "--", alpha = 0.8, zorder = 0)
-    plt.savefig("../graphs/rrhc_k10_5iterations.png")
-    plt.show()
 
 
 """
@@ -69,7 +50,7 @@ receives the chosen heuristic and value of k
 def test(heuristic, k, output = True, rrhc = True, dfs = True, ts = True):
     # build graph
     start_time = time.time()
-    graph = build_graph(edges_filename = "../data/youtube/edges.txt", groups_filename = "../data/youtube/allcmty.txt")
+    graph = build_graph(edges_filename = "../data/livejournal/edges.txt", groups_filename = "../data/livejournal/groups.txt")
     graph_runtime = time.time() - start_time
     if output: print("=> runtime (graph construction): %0.4fs" % float(graph_runtime))
     
@@ -239,7 +220,7 @@ def tabu_search(graph, heuristic_function, k = 1, tabu_size = 5):
     while (it < max_it): # stopping condition?
         if DEBUG: print(f"iteration {it}")
         neighborhood = list(graph.neighbors[best_candidate]) # ? build neighborhood
-        
+
         best_candidate = neighborhood[0]
         if DEBUG: print(f"best candidate: {best_candidate}")
 
@@ -274,4 +255,4 @@ def tabu_search(graph, heuristic_function, k = 1, tabu_size = 5):
     return best_solutions[:k]
 
 
-test(GROUPS, k = 10)
+run_tests()
